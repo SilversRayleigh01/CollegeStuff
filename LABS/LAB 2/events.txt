@@ -1,0 +1,5 @@
+14 8 2026 Hackathon
+10 3 2025 Workshop
+14 8 2026 Presentation
+25 12 2025 Holiday
+1 1 2027 NewYear
