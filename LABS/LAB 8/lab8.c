@@ -22,13 +22,13 @@ void addPackageWeight(int current_weight) {
     weight_history[current_idx] = current_weight;
     total_readings++;
 
-    // Evict items from the rear that cannot be the minimum
+
     while (!is_empty() && weight_history[dq.q[dq.tail]] >= current_weight) {
         dq.tail--;
     }
     dq.q[++dq.tail] = current_idx;
 
-    // Evict the front item if it expired out of the window
+
     while (dq.q[dq.head] <= current_idx - WINDOW_LEN) {
         dq.head++;
     }
