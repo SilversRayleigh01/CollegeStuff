@@ -1,0 +1,20 @@
+#ifndef STACK_H
+#define STACK_H 
+
+#define MAXSIZE 200
+
+struct stack 
+{
+	int key_[MAXSIZE];
+	int top_;
+};
+typedef struct stack stack_t;
+
+void init_stack(stack_t *ptr_stack);
+void deinit_stack(stack_t *ptr_stack);
+void push(stack_t *ptr_stack, int index);
+int pop(stack_t *ptr_stack);
+int is_empty(stack_t *ptr_stack);
+int is_full(stack_t *ptr_stack);
+
+#endif

@@ -1,5 +1,5 @@
 import socket
-
+import struct
 sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
 sock.bind(('10.0.0.1',9053))
@@ -9,13 +9,25 @@ dns_records = {
     "fedora.org": "8.43.85.67"
 }
 
-print("Our Mini server is listening on 10.0.0.1:9053.....")
+print("Binary DNS server is listening on 10.0.0.1:9053.....")
 
 while True:
     data,addr = sock.recvfrom(1024)
-    domain_requested = data.decode().strip()
+    header  = data[:12]
+    answer = data[12:]
+    transaction_id,flags,qn,an,ns,ar = struct.unpack('!HHHHHH',header)
+
+    domain_requested = answer.decode().strip()
+    
+    
     if domain_requested in dns_records:
-        answer = dns_records[domain_requested]
+        ip_answer = dns_records[domain_requested]
     else:
-        answer = "Error: Domain not found"
-    sock.sendto(answer.encode(),addr)
+        sock.sendto(data,('10.0.0.3',9053))
+        h3_response = sock.recvfrom(1024)
+        sock.sendto(h3_response,addr)
+
+
+    resp_header = struct.pack('!HHHHHH',transaction_id,0x8180,1,1,0,0)
+    final_packet = resp_header+ip_answer.encode()
+    sock.sendto(final_packet,addr)
