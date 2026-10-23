@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* =========================================================================
- * Step 1: Callbacks & Functional Concepts (Map, Filter, Reduce)
- * ========================================================================= */
+
 
 void map(const int *src, int *dest, int n, int (*fn)(int)) {
     for (int i = 0; i < n; i++) {
@@ -29,7 +27,7 @@ int reduce(const int *arr, int n, int (*reducer)(int acc, int val), int init) {
     return acc;
 }
 
-// Sample helper callbacks for Step 1 demo
+
 static int square(int x)            { return x * x; }
 static int is_even(int x)           { return x % 2 == 0; }
 static int add(int acc, int val)    { return acc + val; }
@@ -55,9 +53,6 @@ void demonstrate_step_1(void) {
     printf("Reduce (sum) : %d\n\n", sum);
 }
 
-/* =========================================================================
- * Step 2: Flexible Heap via Function Pointer Callbacks
- * ========================================================================= */
 
 typedef int (*cmp_func_t)(int a, int b);
 
@@ -161,13 +156,11 @@ void heap_free(Heap *h) {
     }
 }
 
-/* =========================================================================
- * Step 3: Running Median Tracker
- * ========================================================================= */
+
 
 typedef struct {
-    Heap *left_half;  // Max-Heap: smaller half[cite: 1]
-    Heap *right_half; // Min-Heap: larger half[cite: 1]
+    Heap *left_half;  
+    Heap *right_half; 
 } MedianFinder;
 
 MedianFinder* median_finder_create(int initial_cap) {
@@ -178,14 +171,14 @@ MedianFinder* median_finder_create(int initial_cap) {
 }
 
 void median_finder_insert(MedianFinder *mf, int x) {
-    // 1. Insert[cite: 1]
+   
     if (heap_size(mf->left_half) == 0 || x <= heap_peek(mf->left_half)) {
         heap_push(mf->left_half, x);
     } else {
         heap_push(mf->right_half, x);
     }
 
-    // 2. Balance[cite: 1]
+    
     if (heap_size(mf->left_half) > heap_size(mf->right_half) + 1) {
         heap_push(mf->right_half, heap_pop(mf->left_half));
     } else if (heap_size(mf->right_half) > heap_size(mf->left_half)) {
@@ -214,9 +207,6 @@ void median_finder_free(MedianFinder *mf) {
     }
 }
 
-/* =========================================================================
- * Main: Element Insertion & Median Output
- * ========================================================================= */
 
 int main(void) {
     demonstrate_step_1();

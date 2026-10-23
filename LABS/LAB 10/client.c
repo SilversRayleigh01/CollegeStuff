@@ -10,14 +10,11 @@ void run_test_suite(tree_t* t) {
     disp_tree(t);
     printf("\n");
 }
-
 int main()
 {
     tree_t t;
-    init(&t);
-    
+    init(&t);   
     int n, val;
-
     printf("Enter the number of nodes to insert into the BST: ");
     if (scanf("%d", &n) != 1 || n < 0) {
         printf("Invalid input.\n");
@@ -31,7 +28,6 @@ int main()
             insert(&t, val);
         }
     }
-
     run_test_suite(&t);
     
     deinit(&t);
